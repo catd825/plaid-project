@@ -1,26 +1,96 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const keys = require('./config/keys')
+const keys = require('./config/keys');
+const cors = require('cors');
+const plaid = require('plaid');
 
 require('./models/Account')
 
 const db = require("./config/keys").mongoURI;
 mongoose.connect(db, () => console.log("database connected!"));
 
-const {receivePublicToken, getTransactions, createLinkToken} = require("./routes/plaidRoutes")
+let userSchema = mongoose.Schema({
+    email: String,
+    password: String,
+    transactions: Array,
+    items: Array
+});
+
+let User = mongoose.model('User', userSchema);
+
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
 
-// Get the public token and exchange it for an access token
-app.post('/create_link_token', createLinkToken);
-// Get the public token and exchange it for an access token
-app.post('/get_link_token', receivePublicToken);
-// Get Transactions
-app.get("http://localhost:5000/transactions", getTransactions);
+
+const client = new plaid.Client({
+    clientID: keys.PLAID_CLIENT_ID,
+    secret: keys.PLAID_SECRET,
+    env: plaid.environments.sandbox
+  });
+
+
+  app.post('/create_link_token', async (req, res) => {
+      // console.log("request:", req.body,"response:", res)
+    try{
+    const response = await client.createLinkToken({
+    user: {
+      client_user_id: '123-test-user-id',
+    },
+    client_name: 'Plaid Test App',
+    products: ['auth', 'transactions'],
+    country_codes: ['US'],
+    language: 'en',
+    webhook: 'https://sample-web-hook.com',
+    account_filters: {
+      depository: {
+        account_subtypes: ['checking', 'savings'],
+      },
+    },
+  })
+    return res.send({link_token: response.link_token}) 
+} catch (err) {
+    return res.send({err: err.message})
+}
+
+//   .catch((err) => {
+//     console.log("REQUEST!", req,"RESPONSE!", response.link_token)
+//     // handle error
+//     console.log("ERR", err)
+//   });
+
+});
+
+
+
+app.post('/get_link_token', async(req, res) => {
+const response = await client.getLinkToken(linkToken).catch((err) => {
+    if(!linkToken){
+        return "no link token"
+    }
+  });
+})
+
+// // Get the public token and exchange it for an access token
+// app.post('/create_link_token', createLinkToken);
+// // Get the public token and exchange it for an access token
+// app.post('/get_link_token', receivePublicToken);
+// // Get Transactions
+// app.get("http://localhost:5000/transactions", getTransactions);
 
 
 const PORT = 5000;
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
+
+// const options = {
+    
+    // {method: 'POST',
+    // headers: {
+    //     'Content-Type': 'application/json',
+    //     'Accept': 'application/json',
+    // }
+//     'body': JSON.stringify(jsObject)
+// }
