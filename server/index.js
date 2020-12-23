@@ -73,12 +73,45 @@ const response = await client.getLinkToken(linkToken).catch((err) => {
   });
 })
 
+app.post('/get_access_token', async(req, res) => {
+  console.log('trying to get access token')
+  const {publicToken} = req.body
+  // console.log("PUBLIC TOKEN", publicToken)
+  const response = await client
+    .exchangePublicToken(publicToken)
+    .catch((err) => {
+      if(!publicToken){
+        return "no public token"
+      }
+    });
+  // const accessToken = response.access_token;
+  const itemId = response.item_id;
+  return res.send({access_token: response.access_token}) 
+})
+
+app.post('/transactions', async(req, res) =>{
+  console.log('trying to get transactions')
+  const {accessToken} = req.body
+  const response = await client
+  .getTransactions(accessToken, '2020-10-01', '2020-11-01', {
+    count: 250,
+    offset: 0,
+  })
+  .catch((err) => {
+    if(!accessToken){
+      return "no access token"
+    }
+  });
+const transactions = response.transactions;
+return res.send({transactions: transactions}) 
+})
+
 // // Get the public token and exchange it for an access token
 // app.post('/create_link_token', createLinkToken);
 // // Get the public token and exchange it for an access token
 // app.post('/get_link_token', receivePublicToken);
 // // Get Transactions
-// app.get("http://localhost:5000/transactions", getTransactions);
+// app.get("/transactions", getTransactions);
 
 
 const PORT = 5000;
