@@ -92,8 +92,9 @@ app.post('/get_access_token', async(req, res) => {
 app.post('/transactions', async(req, res) =>{
   console.log('trying to get transactions')
   const {accessToken} = req.body
+  // console.log(req.body)
   const response = await client
-  .getTransactions(accessToken, '2020-10-01', '2020-11-01', {
+  .getTransactions(accessToken, '2018-01-01', '2020-02-01', {
     count: 250,
     offset: 0,
   })
@@ -102,8 +103,9 @@ app.post('/transactions', async(req, res) =>{
       return "no access token"
     }
   });
-const transactions = response.transactions;
-return res.send({transactions: transactions}) 
+console.log("backend response", response)
+// const transactions = response.transactions;
+return res.send({transactions: response}) 
 })
 
 // // Get the public token and exchange it for an access token
