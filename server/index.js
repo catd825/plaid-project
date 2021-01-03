@@ -94,7 +94,7 @@ app.post('/transactions', async(req, res) =>{
   const {accessToken} = req.body
   // console.log(req.body)
   const response = await client
-  .getTransactions(accessToken, '2018-01-01', '2020-02-01', {
+  .getTransactions(accessToken, '2020-01-01', '2021-01-31', {
     count: 250,
     offset: 0,
   })
@@ -105,27 +105,13 @@ app.post('/transactions', async(req, res) =>{
   });
 console.log("backend response", response)
 // const transactions = response.transactions;
-return res.send({transactions: response}) 
+return res.send({transactions: response.transactions}) 
 })
 
-// // Get the public token and exchange it for an access token
-// app.post('/create_link_token', createLinkToken);
-// // Get the public token and exchange it for an access token
-// app.post('/get_link_token', receivePublicToken);
-// // Get Transactions
-// app.get("/transactions", getTransactions);
-
+app.get('/transactions', (req, res) =>{
+  res.send('hello world')
+})
 
 const PORT = 5000;
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
-
-// const options = {
-    
-    // {method: 'POST',
-    // headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    // }
-//     'body': JSON.stringify(jsObject)
-// }
