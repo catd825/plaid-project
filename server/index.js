@@ -103,7 +103,7 @@ app.post('/transactions', async(req, res) =>{
       return "no access token"
     }
   });
-console.log("backend response", response)
+// console.log("backend response", response)
 // const transactions = response.transactions;
 return res.send({transactions: response.transactions}) 
 })
