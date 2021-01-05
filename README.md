@@ -1,12 +1,12 @@
 # plaid-project
 
-```cd server``` and run ```npm install```
-```cd client``` and run ```npm install```
+```cd server``` and run ```npm install``` <br/>
+```cd client``` and run ```npm install``` <br/>
 
-You will need to create a free Plaid account to get keys.  Once you have the keys, you need to create the keys file:
-```cd server``` 
-```cd config```
-```touch keys.js```
+You will need to create a free Plaid account to get keys.  Once you have the keys, you need to create the keys file: <br/>
+```cd server``` <br/>
+```cd config```<br/>
+```touch keys.js```<br/>
 In the file, add the following:
 ```
 module.exports = {
