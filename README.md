@@ -16,7 +16,7 @@ module.exports = {
 };
 ```
 If you want to push your work to Github, remember to hide your keys: <br/>
-Under ```server```: ```touch .gitignore```
+Under ```server```: ```touch .gitignore```<br/>
 In ```.gitignore``` add ```keys.js```
 
 To run both servers, run ```npm run dev```
