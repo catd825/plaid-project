@@ -1,5 +1,7 @@
 # plaid-project
 
+This app uses the Plaid API to connect to a sample bank account to load transactions.  This is set up with ReactJS on the front end and NodeJS/Express on the backend.<br/>
+
 ```cd server``` and run ```npm install``` <br/>
 ```cd client``` and run ```npm install``` <br/>
 
@@ -18,6 +20,6 @@ module.exports = {
 To run both servers, run ```npm run dev```
 
 
-When prompted, add the following test credentials:
-```username: user_good```
+When prompted, add the following test credentials: <br/>
+```username: user_good``` <br/>
 ```password: pass_good```
