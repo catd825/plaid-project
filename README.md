@@ -6,8 +6,7 @@ This app uses the Plaid API to connect to a sample bank account to load transact
 ```cd client``` and run ```npm install``` <br/>
 
 You will need to create a free Plaid account to get keys.  Once you have the keys, you need to create the keys file: <br/>
-```cd server``` <br/>
-```cd config```<br/>
+Under ```server```: ```cd config```<br/>
 ```touch keys.js```<br/>
 In the file, add the following:
 ```
@@ -16,6 +15,9 @@ module.exports = {
     PLAID_SECRET: 'ADD SANDBOX SECRET KEY'
 };
 ```
+If you want to push your work to Github, remember to hide your keys: <br/>
+Under ```server```: ```touch .gitignore```
+In ```.gitignore``` add ```keys.js```
 
 To run both servers, run ```npm run dev```
 
