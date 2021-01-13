@@ -48,7 +48,10 @@ app.post('/get_link_token', async(req, res) => {
 })
 
 app.post('/get_access_token', async(req, res) => {
+  console.log("req.body first", req.body)
   const {publicToken} = req.body
+  console.log("server req", req.body)
+  console.log("public token server side", publicToken)
   const response = await client
     .exchangePublicToken(publicToken)
     .catch((err) => {
@@ -56,6 +59,7 @@ app.post('/get_access_token', async(req, res) => {
         return "no public token"
       }
     });
+  console.log("response server", response)
   const itemId = response.item_id;
   return res.send({access_token: response.access_token}) 
 })
@@ -72,6 +76,7 @@ app.post('/transactions', async(req, res) =>{
       return "no access token"
     }
   });
+  console.log(response.transactions)
   return res.send({transactions: response.transactions}) 
 })
 
