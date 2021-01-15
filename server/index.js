@@ -7,21 +7,29 @@ const plaid = require('plaid');
 
 require('./models/Account')
 
+// const users = require("./routes/api/users");
+
 const db = require("./config/keys").mongoURI;
 mongoose.connect(db, () => console.log("database connected!"));
 
-let userSchema = mongoose.Schema({
-    email: String,
-    password: String,
-    transactions: Array,
-    items: Array
-});
+// let userSchema = mongoose.Schema({
+//     email: String,
+//     password: String,
+//     transactions: Array,
+//     items: Array
+// });
 
-let User = mongoose.model('User', userSchema);
+// let User = mongoose.model('User', userSchema);
 
 
 const app = express();
 app.use(cors())
+//Not sure what this does
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: false
+//   })
+// );
 app.use(bodyParser.json());
 
 
