@@ -4,33 +4,32 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const cors = require('cors');
 const plaid = require('plaid');
+const passport = require("passport");
+
 
 require('./models/Account')
 
-// const users = require("./routes/api/users");
+const users = require("./routes/api/users");
 
 const db = require("./config/keys").mongoURI;
 mongoose.connect(db, () => console.log("database connected!"));
 
-// let userSchema = mongoose.Schema({
-//     email: String,
-//     password: String,
-//     transactions: Array,
-//     items: Array
-// });
-
-// let User = mongoose.model('User', userSchema);
-
-
 const app = express();
 app.use(cors())
 //Not sure what this does
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false
-//   })
-// );
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 app.use(bodyParser.json());
+
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/api/users", users);
 
 
 const client = new plaid.Client({
@@ -116,10 +115,19 @@ app.post('/transactions', async(req, res) =>{
 return res.send({transactions: response.transactions}) 
 })
 
-app.get('/transactions', (req, res) =>{
-  res.send('hello world')
-})
 
 const PORT = 5000;
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`));
+
+
+
+
+// let userSchema = mongoose.Schema({
+//     email: String,
+//     password: String,
+//     transactions: Array,
+//     items: Array
+// });
+
+// let User = mongoose.model('User', userSchema);
