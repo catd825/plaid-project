@@ -48,10 +48,10 @@ app.post('/get_link_token', async(req, res) => {
 })
 
 app.post('/get_access_token', async(req, res) => {
-  console.log("req.body first", req.body)
+  // console.log("req.body first", req.body)
   const {publicToken} = req.body
-  console.log("server req", req.body)
-  console.log("public token server side", publicToken)
+  // console.log("server req", req.body)
+  // console.log("public token server side", publicToken)
   const response = await client
     .exchangePublicToken(publicToken)
     .catch((err) => {
@@ -67,7 +67,7 @@ app.post('/get_access_token', async(req, res) => {
 app.post('/transactions', async(req, res) =>{
   const {accessToken} = req.body
   const response = await client
-  .getTransactions(accessToken, '2020-01-01', '2021-01-31', {
+  .getTransactions(accessToken, '2020-01-01', '2021-03-31', {
     count: 250,
     offset: 0,
   })
